@@ -1,0 +1,23 @@
+sudo : required
+services:
+  - docker
+
+before_install:
+  - docker build -f ./client/Dockerfile.dev -t saitejagoudkasala/client ./client
+
+
+script:
+  - docker run saitejagoudkasala/client -- -- watchAll=false
+
+after_success:
+  - docker build -t saitejagoudkasala/multi-client ./client
+  - docker build -t saitejagoudkasala/multi-worker ./worker
+  - docker build -t saitejagoudkasala/multi-server ./server
+  - docker build -t saitejagoudkasala/multi-rev-proxy ./nginx
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+  - docker push saitejagoudkasala/multi-client
+  - docker push saitejagoudkasala/multi-worker
+  - docker push saitejagoudkasala/multi-server
+  - docker push saitejagoudkasala/multi-rev-proxy
+
