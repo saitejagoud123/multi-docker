@@ -20,3 +20,14 @@ after_success:
   - docker push saitejagoudkasala/multi-server
   - docker push saitejagoudkasala/multi-rev-proxy
 
+deploy:
+  provider: elasticbeanstalk
+  region: "us-west-2"
+  app: "multi-docker"
+  env: "Multidocker-env"
+  bucket_name: "docker-multi"
+  bucket_path: "elasticbeanstalk-us-east-2-573609093514"
+  on:
+    branch: master    
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
