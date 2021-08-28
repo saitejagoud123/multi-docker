@@ -5,9 +5,8 @@ services:
 before_install:
   - docker build -f ./client/Dockerfile.dev -t saitejagoudkasala/client ./client
 
-
 script:
-  - docker run saitejagoudkasala/client -- -- watchAll=false
+  - docker run saitejagoudkasala/client -- --watchAll=false
 
 after_success:
   - docker build -t saitejagoudkasala/multi-client ./client
